@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { MyForm } from "./components/MyForm";
 
 function App() {
+  const [username, setUsername] = useState("");
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{username}님 환영합니다.</h1>
+      <MyForm
+        onChange={(event) => {
+          setUsername(event.target.value);
+        }}
+      ></MyForm>
     </div>
   );
 }
