@@ -1,16 +1,13 @@
-import { useState } from "react";
-import { MyForm } from "./components/MyForm";
+import { SOS } from "./components/SOS";
 
 function App() {
-  const [username, setUsername] = useState("");
   return (
-    <div className="App">
-      <h1>{username}님 환영합니다.</h1>
-      <MyForm
-        onChange={(event) => {
-          setUsername(event.target.value);
+    <div>
+      <SOS
+        onSOS={() => {
+          alert("긴급사태!");
         }}
-      ></MyForm>
+      ></SOS>
     </div>
   );
 }
