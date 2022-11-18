@@ -27,7 +27,7 @@ const Nav = ({ topics, onChangeMode }) => {
           href={"/read/" + t.id}
           onClick={(evt) => {
             evt.preventDefault();
-            onChangeMode("READ");
+            onChangeMode("READ", t.id);
           }}
         >
           {t.title}
@@ -53,25 +53,36 @@ const Article = ({ title, body }) => {
 
 function App() {
   const topics = [
-    { title: "html", body: "html is ..." },
-    { title: "css", body: "css is ..." },
-    { title: "js", body: "js is ..." },
+    { id: 1, title: "html", body: "html is ..." },
+    { id: 2, title: "css", body: "css is ..." },
+    { id: 3, title: "js", body: "js is ..." },
   ];
 
   const [mode, setMode] = useState();
+  const [topicId, setTopicId] = useState("null");
 
   let content = null;
 
   if (mode === "WELCOME") {
     content = <Article title="Hello" body="Welcome, WEB!" />;
   } else if (mode === "READ") {
-    content = <Article title="Hello" body="Welcome, READ!" />;
+    const currentTopic = topics.find((topic) => topic.id === topicId);
+    content = (
+      <Article
+        title={currentTopic.title}
+        body={"Welcome, " + currentTopic.body}
+      />
+    );
+    console.log(currentTopic);
   }
 
   console.log("hello~");
 
-  const changeModeHandler = (mode) => {
+  const changeModeHandler = (mode, topicId) => {
     setMode(mode);
+    if (topicId !== undefined) {
+      setTopicId(topicId);
+    }
   };
 
   return (
