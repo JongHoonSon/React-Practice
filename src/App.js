@@ -71,12 +71,7 @@ function App() {
   console.log("hello~");
 
   const changeModeHandler = (mode) => {
-    console.log("new mode" + mode);
-    if (mode === "WELCOME") {
-      setMode("WELCOME");
-    } else if (mode === "READ") {
-      setMode("READ");
-    }
+    setMode(mode);
   };
 
   return (
