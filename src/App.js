@@ -1,13 +1,76 @@
-import { SOS } from "./components/SOS";
+import "./App.css";
+
+const Header = ({ title, onChangeMode }) => {
+  return (
+    <header>
+      <h1>
+        <a
+          href="index.html"
+          onClick={(evt) => {
+            evt.preventDefault();
+            onChangeMode();
+          }}
+        >
+          {title}
+        </a>
+      </h1>
+    </header>
+  );
+};
+
+const Nav = ({ topics, onChangeMode }) => {
+  const liTag = topics.map((t) => {
+    return (
+      <li key={t.id}>
+        <a
+          href={"/read/" + t.id}
+          onClick={(evt) => {
+            evt.preventDefault();
+            onChangeMode();
+          }}
+        >
+          {t.title}
+        </a>
+      </li>
+    );
+  });
+  return (
+    <nav>
+      <ul>{liTag}</ul>
+    </nav>
+  );
+};
+
+const Article = ({ title, body }) => {
+  return (
+    <article>
+      <h2>{title}</h2>
+      {body}
+    </article>
+  );
+};
 
 function App() {
+  const topics = [
+    { id: 1, title: "html", body: "html is ..." },
+    { id: 2, title: "css", body: "css is ..." },
+    { id: 3, title: "js", body: "js is ..." },
+  ];
   return (
-    <div>
-      <SOS
-        onSOS={() => {
-          alert("긴급사태!");
+    <div className="App">
+      <Header
+        title="웹"
+        onChangeMode={() => {
+          alert("WELCOME");
         }}
-      ></SOS>
+      />
+      <Nav
+        topics={topics}
+        onChangeMode={() => {
+          alert("READ");
+        }}
+      />
+      <Article title="Hello" body="Welcome, WEB!" />
     </div>
   );
 }
