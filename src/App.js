@@ -51,11 +51,19 @@ const Article = ({ title, body }) => {
 };
 
 function App() {
+  let mode = "WELCOME";
   const topics = [
     { id: 1, title: "html", body: "html is ..." },
     { id: 2, title: "css", body: "css is ..." },
     { id: 3, title: "js", body: "js is ..." },
   ];
+  let content = null;
+  if (mode === "WELCOME") {
+    content = <Article title="Hello" body="Welcome, WEB!" />;
+  } else if (mode === "READ") {
+    content = <Article title="Hello" body="Welcome, READ!" />;
+  }
+
   return (
     <div className="App">
       <Header
@@ -70,7 +78,7 @@ function App() {
           alert("READ");
         }}
       />
-      <Article title="Hello" body="Welcome, WEB!" />
+      {content}
     </div>
   );
 }
