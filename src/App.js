@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from "react";
 
 const Header = ({ title, onChangeMode }) => {
   return (
@@ -8,7 +9,7 @@ const Header = ({ title, onChangeMode }) => {
           href="index.html"
           onClick={(evt) => {
             evt.preventDefault();
-            onChangeMode();
+            onChangeMode("WELCOME");
           }}
         >
           {title}
@@ -26,7 +27,7 @@ const Nav = ({ topics, onChangeMode }) => {
           href={"/read/" + t.id}
           onClick={(evt) => {
             evt.preventDefault();
-            onChangeMode();
+            onChangeMode("READ");
           }}
         >
           {t.title}
@@ -51,33 +52,37 @@ const Article = ({ title, body }) => {
 };
 
 function App() {
-  let mode = "WELCOME";
   const topics = [
-    { id: 1, title: "html", body: "html is ..." },
-    { id: 2, title: "css", body: "css is ..." },
-    { id: 3, title: "js", body: "js is ..." },
+    { title: "html", body: "html is ..." },
+    { title: "css", body: "css is ..." },
+    { title: "js", body: "js is ..." },
   ];
+
+  const [mode, setMode] = useState();
+
   let content = null;
+
   if (mode === "WELCOME") {
     content = <Article title="Hello" body="Welcome, WEB!" />;
   } else if (mode === "READ") {
     content = <Article title="Hello" body="Welcome, READ!" />;
   }
 
+  console.log("hello~");
+
+  const changeModeHandler = (mode) => {
+    console.log("new mode" + mode);
+    if (mode === "WELCOME") {
+      setMode("WELCOME");
+    } else if (mode === "READ") {
+      setMode("READ");
+    }
+  };
+
   return (
     <div className="App">
-      <Header
-        title="웹"
-        onChangeMode={() => {
-          alert("WELCOME");
-        }}
-      />
-      <Nav
-        topics={topics}
-        onChangeMode={() => {
-          alert("READ");
-        }}
-      />
+      <Header title="웹" onChangeMode={changeModeHandler} />
+      <Nav topics={topics} onChangeMode={changeModeHandler} />
       {content}
     </div>
   );
