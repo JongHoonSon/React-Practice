@@ -51,27 +51,89 @@ const Article = ({ title, body }) => {
   );
 };
 
-const Controller = () => {
+const Control = ({ onChangeMode }) => {
+  const createClickHanlder = (evt) => {
+    evt.preventDefault();
+    onChangeMode("CREATE");
+  };
+
+  const updateClickHanlder = (evt) => {
+    evt.preventDefault();
+    onChangeMode("UPDATE");
+  };
+
   return (
     <ul>
       <li>
-        <a herf="/create">Create</a>
+        <a href="/create" onClick={createClickHanlder}>
+          Create
+        </a>
+      </li>
+      <li>
+        <a href="/update" onClick={updateClickHanlder}>
+          Update
+        </a>
       </li>
     </ul>
   );
 };
 
+const Create = ({ onSave }) => {
+  const submitHandler = (evt) => {
+    evt.preventDefault();
+
+    const title = evt.target.title.value;
+    const body = evt.target.body.value;
+
+    onSave(title, body);
+  };
+
+  return (
+    <form onSubmit={submitHandler}>
+      <p>
+        <input type="text" name="title" placeholder="title" />
+      </p>
+      <p>
+        <textarea name="body" placeholder="body"></textarea>
+      </p>
+      <p>
+        <input type="submit" value="Create" />
+      </p>
+    </form>
+  );
+};
+
 function App() {
-  const topics = [
+  const [topics, setTopics] = useState([
     { id: 1, title: "html", body: "html is ..." },
     { id: 2, title: "css", body: "css is ..." },
     { id: 3, title: "js", body: "js is ..." },
-  ];
+  ]);
 
   const [mode, setMode] = useState();
   const [topicId, setTopicId] = useState("null");
+  const [nextId, setNextId] = useState(4);
 
   let content = null;
+
+  const changeModeHandler = (mode, topicId) => {
+    setMode(mode);
+    console.log("topicId");
+    console.log(topicId);
+    if (topicId !== undefined) {
+      setTopicId(topicId);
+    }
+  };
+
+  const saveHanlder = (title, body) => {
+    // title, body를 이용해서 topics의 값을 추가한다.
+    console.log(title, body);
+
+    const newTopics = [...topics];
+    newTopics.push({ id: nextId, title, body });
+    setTopics(newTopics);
+    setNextId(nextId + 1);
+  };
 
   if (mode === "WELCOME") {
     content = <Article title="Hello" body="Welcome, WEB!" />;
@@ -84,23 +146,20 @@ function App() {
       />
     );
     console.log(currentTopic);
+  } else if (mode === "CREATE") {
+    content = <Create onSave={saveHanlder} />;
+  } else if (mode === "UPDATE") {
+    content = <div>Update</div>;
   }
 
   console.log("hello~");
-
-  const changeModeHandler = (mode, topicId) => {
-    setMode(mode);
-    if (topicId !== undefined) {
-      setTopicId(topicId);
-    }
-  };
 
   return (
     <div className="App">
       <Header title="웹" onChangeMode={changeModeHandler} />
       <Nav topics={topics} onChangeMode={changeModeHandler} />
       {content}
-      <Controller />
+      <Control onChangeMode={changeModeHandler} />
     </div>
   );
 }
