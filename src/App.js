@@ -132,6 +132,8 @@ function App() {
     const newTopics = [...topics];
     newTopics.push({ id: nextId, title, body });
     setTopics(newTopics);
+    setMode("READ");
+    setTopicId(nextId);
     setNextId(nextId + 1);
   };
 
