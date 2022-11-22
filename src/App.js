@@ -116,6 +116,7 @@ function App() {
 
   let content = null;
 
+  // Header, Nav, Control 에게 줄 도시락
   const changeModeHandler = (mode, topicId) => {
     setMode(mode);
     console.log("topicId");
@@ -125,6 +126,7 @@ function App() {
     }
   };
 
+  // Control 에게 줄 도시락
   const saveHanlder = (title, body) => {
     // title, body를 이용해서 topics의 값을 추가한다.
     console.log(title, body);
