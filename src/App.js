@@ -51,6 +51,16 @@ const Article = ({ title, body }) => {
   );
 };
 
+const Controller = () => {
+  return (
+    <ul>
+      <li>
+        <a herf="/create">Create</a>
+      </li>
+    </ul>
+  );
+};
+
 function App() {
   const topics = [
     { id: 1, title: "html", body: "html is ..." },
@@ -90,6 +100,7 @@ function App() {
       <Header title="웹" onChangeMode={changeModeHandler} />
       <Nav topics={topics} onChangeMode={changeModeHandler} />
       {content}
+      <Controller />
     </div>
   );
 }
