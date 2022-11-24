@@ -121,6 +121,7 @@ function App() {
     setMode(mode);
     console.log("topicId");
     console.log(topicId);
+    // Nav에 존재하는 각 Topic에 대한 li을 누른 경우 topicId를 넘김
     if (topicId !== undefined) {
       setTopicId(topicId);
     }
@@ -131,11 +132,12 @@ function App() {
     // title, body를 이용해서 topics의 값을 추가한다.
     console.log(title, body);
 
+    // topics.push({ id: nextId, title, body });
     const newTopics = [...topics];
     newTopics.push({ id: nextId, title, body });
     setTopics(newTopics);
-    setMode("READ");
-    setTopicId(nextId);
+    setMode("READ"); // 새로 생성된 Topic으로 컴포넌트 전환 과정1
+    setTopicId(nextId); // 새로 생성된 Topic으로 컴포넌트 전환 과정2
     setNextId(nextId + 1);
   };
 
