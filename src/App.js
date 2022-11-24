@@ -106,9 +106,9 @@ function App() {
     console.log(title, body);
 
     // topics.push({ id: nextId, title, body });
-    const newTopics = [...topics];
-    newTopics.push({ id: nextId, title, body });
-    setTopics(newTopics);
+    setTopics((oldTopics) => {
+      oldTopics.push({ id: nextId, title, body });
+    });
     setNextId(nextId + 1);
     navigate(`/read/${nextId}`);
   };
