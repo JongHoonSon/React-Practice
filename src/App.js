@@ -90,9 +90,14 @@ function App() {
   const navigate = useNavigate();
 
   // 서버와 통신하는 사이드 이펙트
+  const fetchTopics = async () => {
+    const topics = await axios.get("http://localhost:3001/topics");
+    console.log("topics", topics);
+  };
+
   useEffect(() => {
     console.log("hi im useEffect");
-    axios.get("http://localhost:3001/topics");
+    fetchTopics();
   }, []);
 
   // Control 에게 줄 도시락
