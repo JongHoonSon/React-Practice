@@ -86,7 +86,6 @@ const Read = ({ topics }) => {
 
 function App() {
   const [topics, setTopics] = useImmer([]);
-  const [nextId, setNextId] = useState(4);
   const navigate = useNavigate();
 
   // 서버와 통신하는 사이드 이펙트
@@ -104,14 +103,17 @@ function App() {
   // Control 에게 줄 도시락
   const saveHanlder = (title, body) => {
     // title, body를 이용해서 topics의 값을 추가한다.
-    console.log(title, body);
+    axios
+      .post("http://localhost:3001/topics", { title, body })
+      .then((result) => {
+        setTopics((oldTopics) => {
+          oldTopics.push(result.data);
+        });
 
-    // topics.push({ id: nextId, title, body });
-    setTopics((oldTopics) => {
-      oldTopics.push({ id: nextId, title, body });
-    });
-    setNextId(nextId + 1);
-    navigate(`/read/${nextId}`);
+        // 새로운 topic 추가 이후,
+        // result.data.id를 path parameter로 갖는 URL로 이동
+        navigate(`/read/${result.data.id}`);
+      });
   };
 
   return (
