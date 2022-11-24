@@ -1,6 +1,8 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
+import { useImmer } from "use-immer";
+import axios from "axios";
 
 const Header = ({ title }) => {
   return (
@@ -83,14 +85,15 @@ const Read = ({ topics }) => {
 };
 
 function App() {
-  const [topics, setTopics] = useState([
-    { id: 1, title: "html", body: "html is ..." },
-    { id: 2, title: "css", body: "css is ..." },
-    { id: 3, title: "js", body: "js is ..." },
-  ]);
-
+  const [topics, setTopics] = useImmer([]);
   const [nextId, setNextId] = useState(4);
   const navigate = useNavigate();
+
+  // 서버와 통신하는 사이드 이펙트
+  useEffect(() => {
+    console.log("hi im useEffect");
+    axios.get("http://localhost:3001/topics");
+  }, []);
 
   // Control 에게 줄 도시락
   const saveHanlder = (title, body) => {
