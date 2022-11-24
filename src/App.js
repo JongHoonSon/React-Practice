@@ -1,19 +1,12 @@
 import "./App.css";
 import { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 
 const Header = ({ title, onChangeMode }) => {
   return (
     <header>
       <h1>
-        <a
-          href="index.html"
-          onClick={(evt) => {
-            evt.preventDefault();
-            onChangeMode("WELCOME");
-          }}
-        >
-          {title}
-        </a>
+        <Link to="/">{title}</Link>
       </h1>
     </header>
   );
@@ -23,15 +16,7 @@ const Nav = ({ topics, onChangeMode }) => {
   const liTag = topics.map((t) => {
     return (
       <li key={t.id}>
-        <a
-          href={"/read/" + t.id}
-          onClick={(evt) => {
-            evt.preventDefault();
-            onChangeMode("READ", t.id);
-          }}
-        >
-          {t.title}
-        </a>
+        <Link to={"/read/" + t.id}>{t.title}</Link>
       </li>
     );
   });
@@ -65,14 +50,10 @@ const Control = ({ onChangeMode }) => {
   return (
     <ul>
       <li>
-        <a href="/create" onClick={createClickHanlder}>
-          Create
-        </a>
+        <Link to="/create">Create</Link>
       </li>
       <li>
-        <a href="/update" onClick={updateClickHanlder}>
-          Update
-        </a>
+        <Link to="/update">Update</Link>
       </li>
     </ul>
   );
@@ -164,6 +145,12 @@ function App() {
     <div className="App">
       <Header title="웹" onChangeMode={changeModeHandler} />
       <Nav topics={topics} onChangeMode={changeModeHandler} />
+      <Routes>
+        <Route path="/" element={<>Root</>}></Route>
+        <Route path="/create" element={<>Create</>}></Route>
+        <Route path="/update" element={<>Update</>}></Route>
+        <Route path="/read/:id" element={<>Read</>}></Route>
+      </Routes>
       {content}
       <Control onChangeMode={changeModeHandler} />
     </div>
