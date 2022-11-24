@@ -1,8 +1,8 @@
 import "./App.css";
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-const Header = ({ title, onChangeMode }) => {
+const Header = ({ title }) => {
   return (
     <header>
       <h1>
@@ -12,7 +12,7 @@ const Header = ({ title, onChangeMode }) => {
   );
 };
 
-const Nav = ({ topics, onChangeMode }) => {
+const Nav = ({ topics }) => {
   const liTag = topics.map((t) => {
     return (
       <li key={t.id}>
@@ -36,17 +36,7 @@ const Article = ({ title, body }) => {
   );
 };
 
-const Control = ({ onChangeMode }) => {
-  const createClickHanlder = (evt) => {
-    evt.preventDefault();
-    onChangeMode("CREATE");
-  };
-
-  const updateClickHanlder = (evt) => {
-    evt.preventDefault();
-    onChangeMode("UPDATE");
-  };
-
+const Control = () => {
   return (
     <ul>
       <li>
@@ -91,22 +81,8 @@ function App() {
     { id: 3, title: "js", body: "js is ..." },
   ]);
 
-  const [mode, setMode] = useState();
-  const [topicId, setTopicId] = useState("null");
   const [nextId, setNextId] = useState(4);
-
-  let content = null;
-
-  // Header, Nav, Control 에게 줄 도시락
-  const changeModeHandler = (mode, topicId) => {
-    setMode(mode);
-    console.log("topicId");
-    console.log(topicId);
-    // Nav에 존재하는 각 Topic에 대한 li을 누른 경우 topicId를 넘김
-    if (topicId !== undefined) {
-      setTopicId(topicId);
-    }
-  };
+  const navigate = useNavigate();
 
   // Control 에게 줄 도시락
   const saveHanlder = (title, body) => {
@@ -117,42 +93,24 @@ function App() {
     const newTopics = [...topics];
     newTopics.push({ id: nextId, title, body });
     setTopics(newTopics);
-    setMode("READ"); // 새로 생성된 Topic으로 컴포넌트 전환 과정1
-    setTopicId(nextId); // 새로 생성된 Topic으로 컴포넌트 전환 과정2
     setNextId(nextId + 1);
+    navigate(`/read/${nextId}`);
   };
-
-  if (mode === "WELCOME") {
-    content = <Article title="Hello" body="Welcome, WEB!" />;
-  } else if (mode === "READ") {
-    const currentTopic = topics.find((topic) => topic.id === topicId);
-    content = (
-      <Article
-        title={currentTopic.title}
-        body={"Welcome, " + currentTopic.body}
-      />
-    );
-    console.log(currentTopic);
-  } else if (mode === "CREATE") {
-    content = <Create onSave={saveHanlder} />;
-  } else if (mode === "UPDATE") {
-    content = <div>Update</div>;
-  }
-
-  console.log("hello~");
 
   return (
     <div className="App">
-      <Header title="웹" onChangeMode={changeModeHandler} />
-      <Nav topics={topics} onChangeMode={changeModeHandler} />
+      <Header title="웹" />
+      <Nav topics={topics} />
       <Routes>
-        <Route path="/" element={<>Root</>}></Route>
-        <Route path="/create" element={<>Create</>}></Route>
-        <Route path="/update" element={<>Update</>}></Route>
-        <Route path="/read/:id" element={<>Read</>}></Route>
+        <Route
+          path="/"
+          element={<Article title="Hello" body="Welcome, WEB!" />}
+        />
+        <Route path="/create" element={<Create onSave={saveHanlder} />}></Route>
+        <Route path="/update" element={<>Update</>} />
+        <Route path="/read/:id" element={<Article></Article>} />
       </Routes>
-      {content}
-      <Control onChangeMode={changeModeHandler} />
+      <Control />
     </div>
   );
 }
