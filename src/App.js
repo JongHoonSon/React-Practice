@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
 
 const Header = ({ title }) => {
   return (
@@ -74,6 +74,14 @@ const Create = ({ onSave }) => {
   );
 };
 
+const Read = ({ topics }) => {
+  const params = useParams();
+  console.log(params);
+  const topicId = Number(params.id);
+  const topic = topics.find((topic) => topic.id === topicId);
+  return <Article title={topic.title} body={topic.body}></Article>;
+};
+
 function App() {
   const [topics, setTopics] = useState([
     { id: 1, title: "html", body: "html is ..." },
@@ -108,7 +116,7 @@ function App() {
         />
         <Route path="/create" element={<Create onSave={saveHanlder} />}></Route>
         <Route path="/update" element={<>Update</>} />
-        <Route path="/read/:id" element={<Article></Article>} />
+        <Route path="/read/:id" element={<Read topics={topics} />} />
       </Routes>
       <Control />
     </div>
