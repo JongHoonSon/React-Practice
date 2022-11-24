@@ -91,8 +91,9 @@ function App() {
 
   // 서버와 통신하는 사이드 이펙트
   const fetchTopics = async () => {
-    const topics = await axios.get("http://localhost:3001/topics");
-    console.log("topics", topics);
+    const fetchedTopics = await axios.get("http://localhost:3001/topics");
+    console.log("fetchedTopics", fetchedTopics);
+    setTopics((oldTodos) => fetchedTopics.data);
   };
 
   useEffect(() => {
